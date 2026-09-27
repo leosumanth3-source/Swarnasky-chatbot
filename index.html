@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Swarnasky Intelligence</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #f6f8fb;
+            --surface: #ffffff;
+            --surface-soft: #f9fafc;
+            --border: #e7eaf0;
+            --text: #151922;
+            --muted: #727988;
+            --accent: #111827;
+            --accent-soft: #eef1f5;
+            --success: #22c55e;
+        }
+
+        body {
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background: var(--bg);
+            color: var(--text);
+
+            min-height: 100vh;
+        }
+
+        /* =====================================================
+           APP
+        ===================================================== */
+
+        .app {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        header {
+            height: 72px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 42px;
+
+            background: rgba(255, 255, 255, 0.92);
+
+            border-bottom: 1px solid var(--border);
+
+            backdrop-filter: blur(12px);
+
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 11px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #111827;
+            color: white;
+
+            font-size: 17px;
+            font-weight: 800;
+
+            box-shadow:
+                0 5px 15px rgba(17, 24, 39, 0.12);
+        }
+
+        .brand-name {
+            font-size: 16px;
+            font-weight: 750;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-subtitle {
+            margin-top: 2px;
+
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .online {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            font-size: 12px;
+            color: #687180;
+        }
+
+        .online-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: var(--success);
+
+            box-shadow:
+                0 0 0 4px rgba(34, 197, 94, 0.09);
+        }
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        main {
+            flex: 1;
+
+            width: 100%;
+            max-width: 1050px;
+
+            margin: 0 auto;
+
+            display: flex;
+            flex-direction: column;
+
+            padding: 50px 25px 25px;
+        }
+
+        /* =====================================================
+           HERO
+        ===================================================== */
+
+        .hero {
+            text-align: center;
+
+            margin: 30px auto 38px;
+
+            max-width: 720px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 7px 12px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 100px;
+
+            background: white;
+
+            font-size: 11px;
+            color: #687180;
+
+            margin-bottom: 17px;
+        }
+
+        .hero-badge span {
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: var(--success);
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 50px);
+
+            line-height: 1.08;
+
+            letter-spacing: -0.045em;
+
+            font-weight: 750;
+
+            margin-bottom: 16px;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            color: #687180;
+        }
+
+        .hero p {
+            max-width: 570px;
+
+            margin: 0 auto;
+
+            font-size: 15px;
+
+            line-height: 1.7;
+
+            color: var(--muted);
+        }
+
+        /* =====================================================
+           SUGGESTIONS
+        ===================================================== */
+
+        .suggestions {
+            display: flex;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+
+            gap: 9px;
+
+            margin-top: 25px;
+        }
+
+        .suggestion {
+            border: 1px solid var(--border);
+
+            background: white;
+
+            color: #454d5c;
+
+            border-radius: 10px;
+
+            padding: 10px 14px;
+
+            font-size: 12px;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.18s ease,
+                border-color 0.18s ease,
+                background 0.18s ease;
+        }
+
+        .suggestion:hover {
+            transform: translateY(-1px);
+
+            border-color: #cbd0d9;
+
+            background: var(--surface-soft);
+        }
+
+        /* =====================================================
+           CHAT
+        ===================================================== */
+
+        .chat {
+            width: 100%;
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 18px 55px rgba(20, 30, 50, 0.055);
+        }
+
+        .messages {
+            min-height: 310px;
+
+            max-height: 560px;
+
+            overflow-y: auto;
+
+            padding: 28px;
+        }
+
+        .messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .messages::-webkit-scrollbar-thumb {
+            background: #d8dce4;
+            border-radius: 20px;
+        }
+
+        /* =====================================================
+           MESSAGES
+        ===================================================== */
+
+        .message {
+            display: flex;
+
+            gap: 12px;
+
+            margin-bottom: 25px;
+
+            animation: messageIn 0.22s ease;
+        }
+
+        @keyframes messageIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .avatar {
+            width: 34px;
+            height: 34px;
+
+            flex-shrink: 0;
+
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #111827;
+
+            color: white;
+
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .message.user .avatar {
+            order: 2;
+
+            background: #eef1f5;
+            color: #4a5260;
+        }
+
+        .message-body {
+            max-width: 75%;
+        }
+
+        .message.user .message-body {
+            order: 1;
+        }
+
+        .message-label {
+            font-size: 10px;
+
+            color: #9aa1ad;
+
+            margin-bottom: 5px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.06em;
+        }
+
+        .message.user .message-label {
+            text-align: right;
+        }
+
+        .bubble {
+            padding: 13px 16px;
+
+            border-radius: 14px;
+
+            border: 1px solid var(--border);
+
+            background: var(--surface-soft);
+
+            font-size: 14px;
+
+            line-height: 1.7;
+
+            white-space: pre-wrap;
+        }
+
+        .message.user .bubble {
+            background: #111827;
+
+            border-color: #111827;
+
+            color: white;
+        }
+
+        /* =====================================================
+           SOURCES
+        ===================================================== */
+
+        .sources {
+            margin-top: 11px;
+        }
+
+        .sources-title {
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.08em;
+
+            color: #999faa;
+
+            margin-bottom: 7px;
+        }
+
+        .source-card {
+            display: block;
+
+            text-decoration: none;
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 9px;
+
+            padding: 9px 11px;
+
+            margin-bottom: 6px;
+
+            transition: background 0.15s ease;
+        }
+
+        .source-card:hover {
+            background: #f8f9fb;
+        }
+
+        .source-heading {
+            font-size: 12px;
+
+            font-weight: 650;
+
+            color: #363d49;
+        }
+
+        .source-page {
+            margin-top: 3px;
+
+            font-size: 10px;
+
+            color: #9299a6;
+        }
+
+        /* =====================================================
+           LOADING
+        ===================================================== */
+
+        .loading {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            padding: 4px 0;
+
+            color: #858c98;
+
+            font-size: 12px;
+        }
+
+        .dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .dot {
+            width: 5px;
+            height: 5px;
+
+            border-radius: 50%;
+
+            background: #8d95a2;
+
+            animation: pulse 1.2s infinite;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes pulse {
+            0%, 60%, 100% {
+                opacity: 0.3;
+                transform: translateY(0);
+            }
+
+            30% {
+                opacity: 1;
+                transform: translateY(-3px);
+            }
+        }
+
+        /* =====================================================
+           INPUT
+        ===================================================== */
+
+        .composer {
+            padding: 15px 18px 17px;
+
+            border-top: 1px solid var(--border);
+
+            background: #fcfcfd;
+        }
+
+        .input-box {
+            display: flex;
+
+            align-items: flex-end;
+
+            gap: 9px;
+
+            padding: 7px 7px 7px 15px;
+
+            background: white;
+
+            border: 1px solid #dfe3e9;
+
+            border-radius: 14px;
+
+            transition: border-color 0.2s ease;
+        }
+
+        .input-box:focus-within {
+            border-color: #b9c0cb;
+        }
+
+        textarea {
+            flex: 1;
+
+            min-height: 42px;
+            max-height: 120px;
+
+            resize: none;
+
+            border: none;
+            outline: none;
+
+            background: transparent;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            padding: 10px 0;
+        }
+
+        textarea::placeholder {
+            color: #a0a7b3;
+        }
+
+        #send {
+            width: 40px;
+            height: 40px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: #111827;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 17px;
+
+            transition: 0.18s;
+        }
+
+        #send:hover {
+            background: #252d3b;
+        }
+
+        #send:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .composer-footer {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 7px 2px 0;
+
+            font-size: 10px;
+
+            color: #a0a6b0;
+        }
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        footer {
+            text-align: center;
+
+            padding: 18px;
+
+            font-size: 10px;
+
+            color: #a0a6b0;
+        }
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 700px) {
+
+            header {
+                height: 64px;
+
+                padding: 0 16px;
+            }
+
+            .brand-subtitle,
+            .online {
+                display: none;
+            }
+
+            main {
+                padding: 28px 12px 15px;
+            }
+
+            .hero {
+                margin: 20px auto 25px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 13px;
+            }
+
+            .suggestions {
+                flex-direction: column;
+            }
+
+            .suggestion {
+                width: 100%;
+            }
+
+            .messages {
+                padding: 20px 15px;
+
+                min-height: 280px;
+            }
+
+            .message-body {
+                max-width: 84%;
+            }
+
+            .chat {
+                border-radius: 15px;
+            }
+
+            .composer {
+                padding: 11px;
+            }
+
+            .composer-footer {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header>
+
+        <div class="brand">
+
+            <div class="logo">
+                S
+            </div>
+
+            <div>
+                <div class="brand-name">
+                    Swarnasky
+                </div>
+
+                <div class="brand-subtitle">
+                    Intelligence Assistant
+                </div>
+            </div>
+
+        </div>
+
+        <div class="online">
+            <span class="online-dot"></span>
+            AI Assistant Online
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main>
+
+        <section class="hero">
+
+            <div class="hero-badge">
+                <span></span>
+                Swarnasky Intelligence
+            </div>
+
+            <h1>
+                Ask Swarnasky.
+                <em>Get answers.</em>
+            </h1>
+
+            <p>
+                Explore Swarnasky's services, insurance
+                solutions, AI capabilities, technology,
+                and company information.
+            </p>
+
+            <div class="suggestions">
+
+                <button
+                    class="suggestion"
+                    onclick="useSuggestion(this)"
+                >
+                    How does Swarnasky automate insurance claims?
+                </button>
+
+                <button
+                    class="suggestion"
+                    onclick="useSuggestion(this)"
+                >
+                    What services does Swarnasky provide?
+                </button>
+
+                <button
+                    class="suggestion"
+                    onclick="useSuggestion(this)"
+                >
+                    What is Swarnasky's approach to AI?
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             CHAT
+        ================================================== -->
+
+        <section class="chat">
+
+            <div
+                id="messages"
+                class="messages"
+            >
+
+                <!-- Messages appear here -->
+
+            </div>
+
+
+            <!-- =================================================
+                 COMPOSER
+            ================================================== -->
+
+            <div class="composer">
+
+                <div class="input-box">
+
+                    <textarea
+                        id="question"
+                        rows="1"
+                        maxlength="1000"
+                        placeholder="Ask about Swarnasky..."
+                    ></textarea>
+
+                    <button
+                        id="send"
+                        onclick="sendMessage()"
+                        title="Send"
+                    >
+                        ↑
+                    </button>
+
+                </div>
+
+                <div class="composer-footer">
+
+                    <span>
+                        Answers are based on Swarnasky website data.
+                    </span>
+
+                    <span>
+                        Enter ↵ to send
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        Swarnasky Intelligence
+    </footer>
+
+</div>
+
+
+<script>
+
+    // ========================================================
+    // API
+    // ========================================================
+
+    const API_URL =
+        "http://127.0.0.1:8000/chat";
+
+
+    // ========================================================
+    // ELEMENTS
+    // ========================================================
+
+    const messages =
+        document.getElementById("messages");
+
+    const question =
+        document.getElementById("question");
+
+    const send =
+        document.getElementById("send");
+
+
+    // ========================================================
+    // SEND MESSAGE
+    // ========================================================
+
+    async function sendMessage() {
+
+        const text =
+            question.value.trim();
+
+        if (!text) {
+            return;
+        }
+
+
+        addUserMessage(text);
+
+        question.value = "";
+
+        autoResize();
+
+        send.disabled = true;
+
+
+        const loadingId =
+            addLoading();
+
+
+        try {
+
+            const response =
+                await fetch(
+                    API_URL,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            question: text
+                        })
+                    }
+                );
+
+
+            removeMessage(loadingId);
+
+
+            if (!response.ok) {
+
+                let errorText =
+                    "Something went wrong. Please try again.";
+
+                try {
+
+                    const error =
+                        await response.json();
+
+                    if (error.detail) {
+
+                        if (
+                            typeof error.detail ===
+                            "string"
+                        ) {
+                            errorText =
+                                error.detail;
+                        }
+                    }
+
+                } catch (_) {}
+
+
+                addAssistantMessage(
+                    errorText,
+                    []
+                );
+
+                return;
+            }
+
+
+            const data =
+                await response.json();
+
+
+            addAssistantMessage(
+                data.answer || "No answer returned.",
+                data.sources || []
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "API error:",
+                error
+            );
+
+
+            removeMessage(loadingId);
+
+
+            addAssistantMessage(
+                "I couldn't connect to the Swarnasky AI service. Please make sure the FastAPI server is running.",
+                []
+            );
+
+
+        } finally {
+
+            send.disabled = false;
+
+            question.focus();
+
+        }
+
+    }
+
+
+    // ========================================================
+    // USER MESSAGE
+    // ========================================================
+
+    function addUserMessage(text) {
+
+        const message =
+            document.createElement("div");
+
+        message.className =
+            "message user";
+
+
+        const avatar =
+            document.createElement("div");
+
+        avatar.className =
+            "avatar";
+
+        avatar.textContent =
+            "You";
+
+
+        const body =
+            document.createElement("div");
+
+        body.className =
+            "message-body";
+
+
+        const label =
+            document.createElement("div");
+
+        label.className =
+            "message-label";
+
+        label.textContent =
+            "You";
+
+
+        const bubble =
+            document.createElement("div");
+
+        bubble.className =
+            "bubble";
+
+        bubble.textContent =
+            text;
+
+
+        body.appendChild(label);
+
+        body.appendChild(bubble);
+
+        message.appendChild(body);
+
+        message.appendChild(avatar);
+
+        messages.appendChild(message);
+
+
+        scrollBottom();
+
+    }
+
+
+    // ========================================================
+    // ASSISTANT MESSAGE
+    // ========================================================
+
+    function addAssistantMessage(
+        answer,
+        sources
+    ) {
+
+        const message =
+            document.createElement("div");
+
+        message.className =
+            "message";
+
+
+        const avatar =
+            document.createElement("div");
+
+        avatar.className =
+            "avatar";
+
+        avatar.textContent =
+            "S";
+
+
+        const body =
+            document.createElement("div");
+
+        body.className =
+            "message-body";
+
+
+        const label =
+            document.createElement("div");
+
+        label.className =
+            "message-label";
+
+        label.textContent =
+            "Swarnasky AI";
+
+
+        const bubble =
+            document.createElement("div");
+
+        bubble.className =
+            "bubble";
+
+        bubble.textContent =
+            answer;
+
+
+        body.appendChild(label);
+
+        body.appendChild(bubble);
+
+
+        // ====================================================
+        // SOURCES
+        // ====================================================
+
+        if (
+            sources &&
+            sources.length
+        ) {
+
+            const sourceContainer =
+                document.createElement("div");
+
+            sourceContainer.className =
+                "sources";
+
+
+            const title =
+                document.createElement("div");
+
+            title.className =
+                "sources-title";
+
+            title.textContent =
+                "Sources";
+
+
+            sourceContainer.appendChild(
+                title
+            );
+
+
+            sources.forEach(
+                source => {
+
+                    if (!source.url) {
+                        return;
+                    }
+
+
+                    const card =
+                        document.createElement("a");
+
+                    card.className =
+                        "source-card";
+
+                    card.href =
+                        source.url;
+
+                    card.target =
+                        "_blank";
+
+                    card.rel =
+                        "noopener noreferrer";
+
+
+                    const heading =
+                        document.createElement("div");
+
+                    heading.className =
+                        "source-heading";
+
+                    heading.textContent =
+                        source.heading ||
+                        source.page_title ||
+                        "Swarnasky Website";
+
+
+                    const page =
+                        document.createElement("div");
+
+                    page.className =
+                        "source-page";
+
+                    page.textContent =
+                        source.page_title || "";
+
+
+                    card.appendChild(
+                        heading
+                    );
+
+                    card.appendChild(
+                        page
+                    );
+
+
+                    sourceContainer.appendChild(
+                        card
+                    );
+
+                }
+            );
+
+
+            body.appendChild(
+                sourceContainer
+            );
+
+        }
+
+
+        message.appendChild(
+            avatar
+        );
+
+        message.appendChild(
+            body
+        );
+
+        messages.appendChild(
+            message
+        );
+
+
+        scrollBottom();
+
+    }
+
+
+    // ========================================================
+    // LOADING
+    // ========================================================
+
+    function addLoading() {
+
+        const id =
+            "loading-" +
+            Date.now();
+
+
+        const message =
+            document.createElement("div");
+
+        message.className =
+            "message";
+
+        message.id =
+            id;
+
+
+        const avatar =
+            document.createElement("div");
+
+        avatar.className =
+            "avatar";
+
+        avatar.textContent =
+            "S";
+
+
+        const body =
+            document.createElement("div");
+
+        body.className =
+            "message-body";
+
+
+        const label =
+            document.createElement("div");
+
+        label.className =
+            "message-label";
+
+        label.textContent =
+            "Swarnasky AI";
+
+
+        const loading =
+            document.createElement("div");
+
+        loading.className =
+            "loading";
+
+        loading.innerHTML = `
+            <span>Thinking</span>
+
+            <span class="dots">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </span>
+        `;
+
+
+        body.appendChild(label);
+
+        body.appendChild(loading);
+
+        message.appendChild(avatar);
+
+        message.appendChild(body);
+
+        messages.appendChild(message);
+
+
+        scrollBottom();
+
+
+        return id;
+
+    }
+
+
+    // ========================================================
+    // REMOVE MESSAGE
+    // ========================================================
+
+    function removeMessage(id) {
+
+        const element =
+            document.getElementById(id);
+
+        if (element) {
+            element.remove();
+        }
+
+    }
+
+
+    // ========================================================
+    // SUGGESTION
+    // ========================================================
+
+    function useSuggestion(button) {
+
+        question.value =
+            button.textContent.trim();
+
+        autoResize();
+
+        sendMessage();
+
+    }
+
+
+    // ========================================================
+    // ENTER TO SEND
+    // ========================================================
+
+    question.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Enter" &&
+                !event.shiftKey
+            ) {
+
+                event.preventDefault();
+
+                sendMessage();
+
+            }
+
+        }
+    );
+
+
+    // ========================================================
+    // AUTO RESIZE
+    // ========================================================
+
+    question.addEventListener(
+        "input",
+        autoResize
+    );
+
+
+    function autoResize() {
+
+        question.style.height =
+            "auto";
+
+        question.style.height =
+            Math.min(
+                question.scrollHeight,
+                120
+            ) + "px";
+
+    }
+
+
+    // ========================================================
+    // SCROLL
+    // ========================================================
+
+    function scrollBottom() {
+
+        messages.scrollTo({
+
+            top:
+                messages.scrollHeight,
+
+            behavior:
+                "smooth"
+
+        });
+
+    }
+
+</script>
+
+</body>
+</html>

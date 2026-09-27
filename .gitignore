@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+
+.env
+.env.*
+
+swarnasky_raw/
+swarnasky_clean/
+swarnasky_chunks/
+
+*.log
+.DS_Store
+Thumbs.db
